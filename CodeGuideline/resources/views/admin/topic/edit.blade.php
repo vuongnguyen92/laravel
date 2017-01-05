@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Topic
-                            <small>Add</small>
+                            <small>Edit</small>
                         </h1>
                     </div>
                     <!-- /.col-lg-12 -->
@@ -47,12 +47,12 @@
                             </div>
                             <div class="form-group">
                                 <label>Tag</label>
-                                <select class="form-control" name="tag[]" multiple="multiple">
+                                <select id="select" class="form-control" name="tag[]" multiple="multiple">
                                     @foreach($tag as $t)
                                     @if($t->status == 1)
                                     <option value="{{$t->id}}"
-                                        @foreach ($tagchooses as $tagchoose) 
-                                            @if($tagchoose == $t->id)
+                                        @foreach ($topic->tag as $tags) 
+                                            @if($tags->id == $t->id)
                                                  {{"selected=selected"}}
                                             @endif
                                         @endforeach
@@ -67,7 +67,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Content</label>
-                                <textarea class="form-control" name="content" rows="5" placeholder="Please Enter Content">{{$topic->content}}</textarea>                                
+                                <textarea class="form-control ckeditor" name="content" rows="5" placeholder="Please Enter Content">{{$topic->content}}</textarea>                                
                             </div>
                              <div class="form-group">
                                 <label>Image</label>
@@ -181,4 +181,10 @@
         </div>
         <!-- /#page-wrapper -->
 
+@endsection
+
+@section('script')
+    <script type="text/javascript">
+  $('select').select2();
+</script>
 @endsection

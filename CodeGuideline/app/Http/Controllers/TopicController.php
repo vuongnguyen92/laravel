@@ -10,6 +10,7 @@ use App\catagory;
 use App\tag;
 use App\log;
 use App\User;
+use App\comment;
 
 class TopicController extends Controller
 {
@@ -36,8 +37,10 @@ class TopicController extends Controller
     }
 
     public function getAdd(){
+        $topic = topic::find(1);
     	$category = catagory::all();
     	$tag = tag::all();
+
     	return view('admin/topic/add',['category'=>$category,'tag'=>$tag]);
     }
     public function postAdd(Request $request){
@@ -63,10 +66,6 @@ class TopicController extends Controller
         else $topic->approvestatus  = 2;  	
         $topic->status = $request->status;
 
-    	$taglist = array();
-    	$taglist = $request->tag;
-    	$topic->idTag = implode(',',$taglist);
-
     	if($request->hasFile('image')){   
     		$file = $request->file('image');	
     		$duoi = $file->getClientOriginalExtension();
@@ -88,6 +87,7 @@ class TopicController extends Controller
     	}
 
     	$topic->save();
+        $topic->find($topic->id)->tag()->attach($request->tag);
 
     	return redirect('admin/topic/add')->with('notify','Add Topic Success'); 
     }
@@ -97,9 +97,8 @@ class TopicController extends Controller
     	$category = catagory::all();
     	$tag = tag::all();
         $user = User::find($id);
-    	$tagchooses = explode(',', $topic->idTag);
 
-    	return view('admin/topic/edit',['topic'=>$topic,'category'=>$category,'tag'=>$tag, 'tagchooses'=> $tagchooses, 'user'=>$user ]);
+    	return view('admin/topic/edit',['topic'=>$topic,'category'=>$category,'tag'=>$tag,'user'=>$user ]);
     }
 
     public function postEdit(Request $request,$id){
@@ -130,14 +129,8 @@ class TopicController extends Controller
                 $log->logApprovestatus = $request->approvestatus;
                 $log->logApprovedby = Auth::user()->name;
                 $topic->timeapproved = $log->created_at;
-
             }
             $log->save();
-
-    	$taglist = array();
-    	$taglist = $request->tag;
-    	$topic->idTag = implode(',',$taglist);
-
 
     	if($request->hasFile('image')){   
     		$file = $request->file('image');	
@@ -158,14 +151,24 @@ class TopicController extends Controller
     	else{
     		$topic->image="";
     	}
-
     	$topic->save();
+        $topic->find($topic->id)->tag()->sync($request->tag);
 
     	return redirect('admin/topic/edit/'.$id)->with('notify','Edit Topic Success'); 
     }
 
     public function getDelete($id){
     	$topic = topic::find($id);
+        $log = log::all();
+        $comment = comment::all();
+        foreach ($topic->log as $lg) {
+            $log = log::where('id',$lg->id)->delete();
+        }
+
+        foreach ($topic->comment as $cmt) {
+            $comment = comment::where('id',$cmt->id)->delete();
+        }
+
     	$topic->delete();
 
     	return redirect('admin/topic/list')->with('notify','Delete Topic Success');
@@ -174,10 +177,7 @@ class TopicController extends Controller
     public function searchtopic(Request $request){
         // title, content, short description
         $key = $request->key;
-        $topic = topic::where('tittle','LIKE','%' . $key . '%')
-        ->orwhere('content','LIKE','%' . $key . '%')
-        ->orwhere('shortdescription','LIKE','%' . $key . '%')->paginate(10);
-
+        $topic = topic::whereRaw("MATCH(tittle,shortdescription,content) AGAINST(?)", array($key))->paginate(10);
         return view('admin/topic/search',['topic'=>$topic,'key'=>$key]); 
 
     }

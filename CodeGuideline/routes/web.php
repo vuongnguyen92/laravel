@@ -9,130 +9,137 @@
 | by your application. Just tell Laravel the URIs it should respond
 | to using a Closure or controller method. Build something great!
 |
-*/
+ */
 
-use App\catagory;
+Route::get('/',
+function () {
+		return view('welcome');
+	});
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('admin/login', 'UserController@getLogin');
+Route::post('admin/login', 'UserController@postLogin');
 
-Route::get('admin/login','UserController@getLogin');
-Route::post('admin/login','UserController@postLogin');
+Route::get('admin/logout', 'UserController@getLogout');
 
-Route::get('admin/logout','UserController@getLogout');
-
-
-	Route::group(['prefix'=>'admin','middleware'=>'adminLogin'],function(){
+Route::group(['prefix' => 'admin', 'middleware' => 'adminLogin'], function () {
 		//admin/user
-		Route::group(['prefix'=>'user'],function(){
-			Route::group(['prefix'=>'list'],function(){
-				Route::get('admin','UserController@getListadmin');
-				Route::get('moderate','UserController@getListmoderate');
-				Route::get('author','UserController@getListauthor');
-				Route::get('user','UserController@getListuser');
+		Route::group(['prefix'   => 'user'], function () {
+				Route::group(['prefix' => 'list'], function () {
+						Route::get('admin', 'UserController@getListadmin');
+						Route::get('moderate', 'UserController@getListmoderate');
+						Route::get('author', 'UserController@getListauthor');
+						Route::get('user', 'UserController@getListuser');
+					});
+
+				Route::get('edit/{id}', 'UserController@getEdit');
+				Route::post('edit/{id}', 'UserController@postEdit');
+
+				Route::get('add', 'UserController@getAdd');
+				Route::post('add', 'UserController@postAdd');
+
+				Route::get('delete/{id}', 'UserController@getDelete');
 			});
 
-			Route::get('edit/{id}','UserController@getEdit');
-			Route::post('edit/{id}','UserController@postEdit');
-
-			Route::get('add','UserController@getAdd');
-			Route::post('add','UserController@postAdd');
-
-			Route::get('delete/{id}','UserController@getDelete');
-		});
-
 		//admin/category
-		Route::group(['prefix'=>'category'],function(){
-			Route::get('list','CategoryController@getList');
+		Route::group(['prefix' => 'category'], function () {
+				Route::get('list', 'CategoryController@getList');
 
-			Route::get('edit/{id}','CategoryController@getEdit');
-			Route::post('edit/{id}','CategoryController@postEdit');
+				Route::get('edit/{id}', 'CategoryController@getEdit');
+				Route::post('edit/{id}', 'CategoryController@postEdit');
 
-			Route::get('add','CategoryController@getAdd');
-			Route::post('add','CategoryController@postAdd');
+				Route::get('add', 'CategoryController@getAdd');
+				Route::post('add', 'CategoryController@postAdd');
 
-			Route::get('delete/{id}','CategoryController@getDelete');
+				Route::get('delete/{id}', 'CategoryController@getDelete');
 
-			Route::post('searchcategory','CategoryController@searchcategory');
+				Route::post('searchcategory', 'CategoryController@searchcategory');
 
-		});
+			});
 
 		//admin/tag
-		Route::group(['prefix'=>'tag'],function(){
-			Route::get('list','TagController@getList');
+		Route::group(['prefix' => 'tag'], function () {
+				Route::get('list', 'TagController@getList');
 
-			Route::get('edit/{id}','TagController@getEdit');
-			Route::post('edit/{id}','TagController@postEdit');
+				Route::get('edit/{id}', 'TagController@getEdit');
+				Route::post('edit/{id}', 'TagController@postEdit');
 
-			Route::get('add','TagController@getAdd');
-			Route::post('add','TagController@postAdd');
+				Route::get('add', 'TagController@getAdd');
+				Route::post('add', 'TagController@postAdd');
 
-			Route::get('delete/{id}','TagController@getDelete');
+				Route::get('delete/{id}', 'TagController@getDelete');
 
-			Route::post('searchtag','TagController@searchtag');
+				Route::post('searchtag', 'TagController@searchtag');
 
-		});
+			});
 
 		//admin/topic
-		Route::group(['prefix'=>'topic'],function(){
-			Route::get('list','TopicController@getList');
+		Route::group(['prefix' => 'topic'], function () {
+				Route::get('list', 'TopicController@getList');
 
-			Route::get('listauthor','TopicController@getListauthor');
+				Route::get('listauthor', 'TopicController@getListauthor');
 
-			Route::get('listmoderate','TopicController@getListmoderate');
+				Route::get('listmoderate', 'TopicController@getListmoderate');
 
-			Route::get('edit/{id}','TopicController@getEdit');
-			Route::post('edit/{id}','TopicController@postEdit');
+				Route::get('edit/{id}', 'TopicController@getEdit');
+				Route::post('edit/{id}', 'TopicController@postEdit');
 
-			Route::get('add','TopicController@getAdd');
-			Route::post('add','TopicController@postAdd');
+				Route::get('add', 'TopicController@getAdd');
+				Route::post('add', 'TopicController@postAdd');
 
-			Route::get('delete/{id}','TopicController@getDelete');
+				Route::get('delete/{id}', 'TopicController@getDelete');
 
-			Route::post('searchtopic','TopicController@searchtopic');
-	});
+				// Route::get('searchtopic', 'TopicController@searchtopic');
+				Route::any('searchtopic', 'TopicController@searchtopic');
+			});
 
 		//admin/comment
-		Route::group(['prefix'=>'comment'],function(){
-		Route::get('delete/{id}/{idTopic}','CommentController@getDelete');
+		Route::group(['prefix' => 'comment'], function () {
+				Route::get('delete/{id}/{idTopic}', 'CommentController@getDelete');
 
-		Route::get('comment','CommentController@getComment');
-	});
+				Route::get('comment', 'CommentController@getComment');
+			});
 
 		//admin/keyfilter
-		Route::group(['prefix'=>'keyfilter'],function(){
-			Route::get('list','KeyfilterController@getList');
+		Route::group(['prefix' => 'keyfilter'], function () {
+				Route::get('list', 'KeyfilterController@getList');
 
-			Route::get('add','KeyfilterController@getAdd');
-			Route::post('add','KeyfilterController@postAdd');
+				Route::get('add', 'KeyfilterController@getAdd');
+				Route::post('add', 'KeyfilterController@postAdd');
 
-			Route::get('edit/{id}','KeyfilterController@getEdit');
-			Route::post('edit/{id}','KeyfilterController@postEdit');
+				Route::get('edit/{id}', 'KeyfilterController@getEdit');
+				Route::post('edit/{id}', 'KeyfilterController@postEdit');
 
-			Route::get('delete/{id}','KeyfilterController@getDelete');
+				Route::get('delete/{id}', 'KeyfilterController@getDelete');
 
-			Route::post('searchkeyfilter','KeyfilterController@searchkeyfilter');
+				Route::post('searchkeyfilter', 'KeyfilterController@searchkeyfilter');
 
-		});
+			});
 
-		Route::group(['prefix'=>'dashboard'],function(){
-			Route::get('list','DashboardController@getList');
-		});
-});
+		Route::group(['prefix' => 'dashboard'], function () {
+				Route::get('list', 'DashboardController@getList');
+			});
+	});
 
-	Route::get('homepages','PagesController@homepages');
-	Route::get('category/{id}','PagesController@category');
-	Route::get('topic/{id}','PagesController@topic');
+Route::get('homepages', 'PagesController@homepages');
+Route::get('category/{id}', 'PagesController@category');
+Route::get('tag/{id}', 'PagesController@tag');
+Route::get('topic/{id}', 'PagesController@topic');
 
-	Route::get('login','PagesController@getLogin');
-	Route::post('login','PagesController@postLogin');
+Route::get('login', 'PagesController@getLogin');
+Route::post('login', 'PagesController@postLogin');
 
-	Route::get('logout','PagesController@getLogout');
-	Route::post('comment/{id}','CommentController@postComment');
+Route::get('logout', 'PagesController@getLogout');
+Route::post('comment/{id}', 'CommentController@postComment');
 
-	Route::get('account','PagesController@getAccount');
-	Route::post('account','PagesController@postAccount');
+Route::get('account', 'PagesController@getAccount');
+Route::post('account', 'PagesController@postAccount');
 
-	Route::get('register','PagesController@getRegister');
-	Route::post('register','PagesController@postRegister');
+Route::get('register', 'PagesController@getRegister');
+Route::post('register', 'PagesController@postRegister');
+
+Route::post('favourite/{id}', 'FavouriteController@postFavourite');
+
+Route::get('favourite/list', 'FavouriteController@getList');
+Route::get('favourite/delete/{id}', 'FavouriteController@getDelete');
+
+Route::any('search', 'SearchController@search');

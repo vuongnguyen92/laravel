@@ -26,10 +26,8 @@ class CommentController extends Controller {
 		$keyfilter = keyfilter::get(['name']);
 
 		foreach ($keyfilter as $key) {
-			// echo $key->name ."<br>";
 			$array[] = $key->name;
 		}
-		// var_dump($array);
 
 		return view('admin/comment/comment', ['comment' => $comment, 'array' => $array]);
 	}

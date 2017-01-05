@@ -27,15 +27,6 @@ class DashboardController extends Controller
         $topicv1 = topic::where('idUser',Auth::user()->id)->orderBy('viewed','desc')->take(1)->get();
         $topiccmt1 = topic::where('idUser',Auth::user()->id)->orderBy('cmt_count','desc')->take(1)->get();
 
-
-        // echo Auth::user()->id;
-        // foreach ($topic as $tp) {
-        //     echo $tp->idUser."<br>";
-        // }
-        // echo "------------------------------";
-        // echo $topic->where('idUser',Auth::user()->id)->count();
-
-
     	return view('admin/dashboard/dashboard',['topic'=>$topic,'category'=>$category,'user'=>$user,'comment'=>$comment,'topic1'=>$topic1,'topicv'=>$topicv,'topiccmt'=>$topiccmt,'topic_rating'=>$topic_rating,'topic2'=>$topic2,'topic_rating1'=>$topic_rating1,'topicv1'=>$topicv1,'topiccmt1'=>$topiccmt1,'topic3'=>$topic3]);
     }
 }

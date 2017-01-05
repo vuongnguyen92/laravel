@@ -57,8 +57,9 @@ class KeyfilterController extends Controller
     public function getDelete($id){
     	$keyfilter = keyfilter::find($id);
     	$keyfilter->delete();
+        $keyfilter = keyfilter::paginate(10);
 
-    	return redirect('admin/keyfilter/add')->with('notify','Delete Keyfilter Success');
+    	return view('admin/keyfilter/list',['keyfilter'=>$keyfilter])->with('notify','Delete Keyfilter Success');
     }
 
     public function searchkeyfilter(Request $request) {

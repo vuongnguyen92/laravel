@@ -86,7 +86,7 @@
                                     <!-- /.nav-third-level -->
                                 </li>
                                 <li>
-                                    <a href="#">Add User</a>
+                                    <a href="admin/user/add">Add User</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

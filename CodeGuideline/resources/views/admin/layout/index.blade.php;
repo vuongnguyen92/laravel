@@ -25,6 +25,8 @@
 
     <!-- DataTables Responsive CSS -->
     <link href="admin_asset/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
+    <!-- Select tag-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -54,6 +56,9 @@
     <!-- DataTables JavaScript -->
     <script src="admin_asset/bower_components/DataTables/media/js/jquery.dataTables.min.js"></script>
     <script src="admin_asset/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+
+    <!-- Select tag-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>

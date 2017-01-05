@@ -22,9 +22,10 @@
                     </li>
                 </ul>
 
-                <form class="navbar-form navbar-left" role="search">
+                <form action="/search" method="post" class="navbar-form navbar-left" role="search">
+                <input type="hidden" name="_token" value="{{csrf_token()}}">
 			        <div class="form-group">
-			          <input type="text" class="form-control" placeholder="Search">
+			          <input type="text" name="key" class="form-control" placeholder="Search">
 			        </div>
 			        <button type="submit" class="btn btn-default">Submit</button>
 			    </form>
@@ -39,6 +40,13 @@
                         <a href="login">Login</a>
                     </li>
                 @else
+
+                    <li>
+                        <a href="favourite/list">
+                            <span class ="glyphicon glyphicon-star-empty"></span>
+                            Favourite
+                        </a>
+                    </li>
                     <li>
                     	<a href="account">
                     		<span class ="glyphicon glyphicon-user"></span>

@@ -43,7 +43,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Tag</label>
-                                <select class="form-control" name="tag[]" multiple="multiple">
+                                <select id= "select" class="form-control" name="tag[]" multiple="multiple">
                                     @foreach($tag as $t)
                                     @if($t->status == 1)
                                     <option value="{{$t->id}}">{{$t->name}}</option>
@@ -57,7 +57,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Content</label>
-                                <textarea class="form-control" name="content" rows="5" placeholder="Please Enter Content"></textarea>
+                                <textarea class="form-control ckeditor" name="content" rows="5" placeholder="Please Enter Content"></textarea>
                             </div>
                              <div class="form-group">
                                 <label>Image</label>
@@ -109,4 +109,11 @@
         </div>
         <!-- /#page-wrapper -->
 
+@endsection
+
+
+@section('script')
+    <script type="text/javascript">
+  $('select').select2();
+</script>
 @endsection

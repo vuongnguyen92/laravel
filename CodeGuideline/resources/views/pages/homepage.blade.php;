@@ -32,18 +32,16 @@ $new1 = $data->shift();
 ?>
 		                	<div class="col-md-8 border-right">
 		                		<div class="col-md-5">
-			                        <a href="detail.html">
-			                            <img class="img-responsive" src="image/320x150.png" alt="">
+			                        <a href="topic/{{$new1->id}}">
+			                            <img class="img-responsive" src="upload/tintuc/{{$new1->image}}" alt="">
 			                        </a>
 			                    </div>
 			                    <div class="col-md-7">
 			                        <h3>{{$new1->tittle}}</h3>
 			                        <p>{{$new1->shortdescription}}</p>
-			                        <a class="btn btn-primary" href="topic/{{$new1->id}}">View Project <span class="glyphicon glyphicon-chevron-right"></span></a>
+			                        <a class="btn btn-primary" href="topic/{{$new1->id}}">Detail ... <span class="glyphicon glyphicon-chevron-right"></span></a>
 								</div>
 		                	</div>
-
-
 							<div class="col-md-4">
 							@foreach($data->all() as $tp)
 								<a href="topic/{{$tp->id}}">

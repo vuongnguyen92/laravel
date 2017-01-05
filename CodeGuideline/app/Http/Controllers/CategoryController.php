@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\catagory;
+use App\topic;
+use App\comment;
+use DB;
 
 class CategoryController extends Controller
 {
@@ -55,17 +58,17 @@ class CategoryController extends Controller
 
     public function getDelete($id){
     	$category = catagory::find($id);
-    	$category->delete();	
+    	$category->delete();
+        $category = catagory::paginate(10);	
 
-    	return view('admin/category/add')->with('notify','Delete Category Success');
+    	return view('admin/category/list',['category'=>$category])->with('notify','Delete Category Success');
     }
 
     public function searchcategory(Request $request){
         // name, description
         $key = $request->key;
-        $category = catagory::where('name','LIKE','%' . $key . '%')
-        ->orwhere('description','LIKE','%' . $key . '%')->paginate(10);
-
+        $category = catagory::whereRaw("MATCH(name,description) AGAINST(?)", array($key))->get();
+        
         return view('admin/category/search',['category'=>$category,'key'=>$key]); 
     }
 }

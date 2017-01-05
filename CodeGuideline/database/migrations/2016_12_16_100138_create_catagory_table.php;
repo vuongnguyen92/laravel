@@ -18,7 +18,11 @@ class CreateCatagoryTable extends Migration {
 				$table->string('description');
 				$table->integer('status');
 				$table->timestamps();
+
+				$table->index(['name', 'description']);
 			});
+
+		DB::statement('ALTER TABLE catagory ADD FULLTEXT search(name,description)');
 	}
 
 	/**

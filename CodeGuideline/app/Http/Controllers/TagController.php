@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\tag;
+use App\topic;
 
 class TagController extends Controller
 {
@@ -55,16 +56,15 @@ class TagController extends Controller
 
     public function getDelete($id){
     	$tag = tag::find($id);
-    	$tag->delete();	
+        $tag->delete();
+        $tag = tag::paginate(10);
 
-    	return view('admin/tag/add')->with('notify','Delete Tag Success');
-    }
-
+    	return view('admin/tag/list',['tag'=>$tag])->with('notify','Delete Tag Success');
+}    
     public function searchtag(Request $request){
         // name, description
         $key = $request->key;
-        $tag = tag::where('name','LIKE','%' . $key . '%')
-        ->orwhere('description','LIKE','%' . $key . '%')->paginate(10);
+        $tag = tag::whereRaw("MATCH(name,description) AGAINST(?)", array($key))->get();
 
         return view('admin/tag/search',['tag'=>$tag,'key'=>$key]); 
     }

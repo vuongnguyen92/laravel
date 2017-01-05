@@ -16,7 +16,7 @@ class CommentController extends Controller
     	$comment = comment::find($id);
         $topic = topic::find($idTopic);
     	$comment->delete();
-         $topic->cmt_count= $topic->cmt_count - 1;
+        $topic->cmt_count= $topic->cmt_count - 1;
 
          $topic->save();
     	return redirect('admin/topic/edit/'.$idTopic)->with('notify','Delete Comment Success');
@@ -27,10 +27,8 @@ class CommentController extends Controller
     	$keyfilter = keyfilter::get(['name']);
 
         foreach ($keyfilter as $key) {  
-            // echo $key->name ."<br>";
             $array[] = $key->name; 
         }
-        // var_dump($array);
 
     	return view('admin/comment/comment',['comment'=>$comment,'array'=>$array]);
 	}

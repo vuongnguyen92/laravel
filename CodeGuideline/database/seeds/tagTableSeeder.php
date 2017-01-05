@@ -13,13 +13,16 @@ class tagTableSeeder extends Seeder
     {
         //
         $status = 1 ;
-        DB::table('tag')->insert([
-        	['name' => 'test','description' => 'test','status'=>$status],
-        	['name' => 'coding','description' => 'coding computer','status'=>$status],
-        	['name' => 'word','description' => 'word word','status'=>$status],
-        	['name' => 'foot','description' => 'foot','status'=>$status],
-        	['name' => 'mu','description' => 'mu sport','status'=>$status],
-        	['name' => 'mc','description' => 'mc sport','status'=>$status]
-    	]);
+        $faker = Faker\Factory::create();
+        $datas = [];
+        foreach (range(1, 10) as $key => $value) {
+            $datas[] = [
+                'name' =>  'tag'.$faker->word ,
+                'description' =>  $faker->text ,
+                'status'=>$status,
+                'created_at' => new DateTime()
+            ];
+        }
+        DB::table('tag')->insert($datas);
     }
 }

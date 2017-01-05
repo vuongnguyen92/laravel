@@ -1,5 +1,6 @@
 <?php
 
+use App\topic;
 use Illuminate\Database\Seeder;
 
 class commentTableSeeder extends Seeder {
@@ -9,8 +10,15 @@ class commentTableSeeder extends Seeder {
 	 * @return void
 	 */
 	public function run() {
+
 		//
-		$content = array(
+		$faker              = Faker\Factory::create();
+		$topic_ids          = \App\topic::pluck('id')->toArray();
+		$user_ids           = \App\user::pluck('id')->toArray();
+		$arrayToppic        = \App\topic::pluck('vote_count', 'id');
+		$arrayToppicComment = \App\topic::pluck('cmt_count', 'id');
+		$datas              = [];
+		$content            = array(
 			'Bài viết rất hay',
 			'Tôi rất thích bài viết này',
 			'Bài viết này tạm ổn',
@@ -24,17 +32,29 @@ class commentTableSeeder extends Seeder {
 			'Fuck quá tệ',
 			'Bitch, bỏ đi'
 		);
+		// $arrayToppic = [
+		//     '1' => '0',
+		//     '2' => '0',
+		// ]
 
-		for ($i = 1; $i <= 100; $i++) {
-			DB::table('comment')->insert(
-				[
-					'idUser'     => rand(31, 40),
-					'idTopic'    => rand(92, 136),
-					'content'    => $content[rand(0, 11)],
-					'vote'       => rand(1, 5),
-					'created_at' => new DateTime()
-				]
-			);
+		foreach (range(1, 100) as $key => $value) {
+			$idTopic = $faker->randomElement($topic_ids);
+			$vote    = rand(1, 5);
+			$datas[] = [
+				'idUser'     => $faker->randomElement($user_ids),
+				'idTopic'    => $idTopic,
+				'content'    => $content[rand(0, 11)],
+				'vote'       => $vote,
+				'created_at' => new DateTime()
+			];
+			$arrayToppic[$idTopic] += $vote;
+			$arrayToppicComment[$idTopic] += 1;
+
+		}
+		DB::table('comment')->insert($datas);
+		foreach ($arrayToppic as $key                                => $value) {
+			DB::table('topic')->where('id', $key)->update(['vote_count' => $value]);
+			DB::table('topic')->where('id', $key)->update(['cmt_count'  => $arrayToppicComment[$key]]);
 		}
 	}
 }

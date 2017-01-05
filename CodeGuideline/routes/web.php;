@@ -12,7 +12,7 @@
  */
 
 Route::get('/',
-function () {
+	function () {
 		return view('welcome');
 	});
 
@@ -88,7 +88,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminLogin'], function () {
 
 				Route::get('delete/{id}', 'TopicController@getDelete');
 
-				Route::post('searchtopic', 'TopicController@searchtopic');
+				// Route::get('searchtopic', 'TopicController@searchtopic');
+				Route::any('searchtopic', 'TopicController@searchtopic');
 			});
 
 		//admin/comment
@@ -121,6 +122,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'adminLogin'], function () {
 
 Route::get('homepages', 'PagesController@homepages');
 Route::get('category/{id}', 'PagesController@category');
+Route::get('tag/{id}', 'PagesController@tag');
 Route::get('topic/{id}', 'PagesController@topic');
 
 Route::get('login', 'PagesController@getLogin');
@@ -134,3 +136,10 @@ Route::post('account', 'PagesController@postAccount');
 
 Route::get('register', 'PagesController@getRegister');
 Route::post('register', 'PagesController@postRegister');
+
+Route::post('favourite/{id}', 'FavouriteController@postFavourite');
+
+Route::get('favourite/list', 'FavouriteController@getList');
+Route::get('favourite/delete/{id}', 'FavouriteController@getDelete');
+
+Route::any('search', 'SearchController@search');

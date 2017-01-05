@@ -1,4 +1,4 @@
-    @extends('layout.index')
+@extends('layout.index')
 
     @section('content')
         <!-- Page Content -->
@@ -9,31 +9,73 @@
             <div class="col-lg-9">
 
                 <!-- Blog Post -->
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="http://codeguideline.nv/homepages">Home</a></li>
+                  <li class="breadcrumb-item"><a href="category/{{$topic->idCatagory}}">{{$topic->catagory->name}}</a></li>
+                  <li style="float: right;" ><span class="glyphicon glyphicon-time"></span> Posted on {{$topic->created_at}}</li>
+                </ol>
+                <!-- Modal -->
+
+
+                <div class="container">
+                  <!-- Trigger the modal with a button -->
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add to my favourite</button>
+
+                  <!-- Modal -->
+                  <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Enter the name you want to save down</h4>
+                        </div>
+                        <div class="modal-body">
+                          <form id="myForm" action="favourite/{{$topic->id}}" method="post" >
+                              <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                              Name: <input type="text" name="fname"><br>
+                        </div>
+                        <div class="modal-footer">
+                              <input type="submit" value="Submit">
+                          </form>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </div>
+
+<!-- -->
 
                 <!-- Title -->
                 <h1>{{$topic->tittle}}</h1>
-
-                <!-- Author -->
-                <p class="lead">
-                    by <a href="#">{{$topic->user->name}}</a>
-                </p>
 
                 <!-- Preview Image -->
                 <img class="img-responsive" src="upload/tintuc/{{$topic->image}}" alt="">
 
                 <!-- Date/Time -->
-                <p><span class="glyphicon glyphicon-time"></span> Posted on {{$topic->created_at}}</p>
-                <hr>
 
                 <!-- Post Content -->
                 <p class="lead">{{$topic->shortdescription}}</p>
-                <p>{{$topic->content}}</p>
-
-                <hr>
+                <p>{!!$topic->content!!}</p>
+                <!-- Author -->
+                <p class="lead" style="float: right;">
+                {{$topic->user->name}}
+                </p>
+                <br>
                 <ul class="nav nav-pills" role="tablist">
                 <li role="presentation" class="active"><a>Viewed <span class="badge">{{$topic->viewed}}</span></a></li>
                 </ul>
-                <hr>
+<?php
+$artag = explode(',', $topic->idTag);
+?>
+                <b>Tag:</b>
+                @foreach($topic->tag as $tg)
+                 <a href="tag/{{$tg->id}}">{{$tg->name}} </a> ,
+                  @endforeach
+                <br>
                 <!-- Blog Comments -->
 
                 <!-- Comments Form -->
@@ -71,7 +113,6 @@
                 </div>
                 @endif
 
-                <hr>
 
                 <!-- Posted Comments -->
 
@@ -89,9 +130,37 @@
                     </div>
                 </div>
                 @endforeach
+                <!-- Comment -->
+
+              <!-- Blog correlative -->
+              <hr>
+              <div class="col-md-9">
+              <h2>Related article</h2>
+              @foreach($topic3 as $tp)
+                        <div class="row" style="margin-top: 10px;">
+                            <div class="col-md-7">
+                                <li><a href="topic/{{$tp->id}}">{{$tp->tittle}}</a></li>
+                            </div>
+                            <!-- <div class="break"></div> -->
+                        </div>
+                        <!-- end item -->
+                        @endforeach
+              @foreach($topic4 as $tp)
+                        <div class="row" style="margin-top: 10px;">
+                            <div class="col-md-7">
+                                <li><a href="topic/{{$tp->id}}">{{$tp->tittle}}</a></li>
+                            </div>
+                            <!-- <div class="break"></div> -->
+                        </div>
+                        <!-- end item -->
+                        @endforeach
+              </div>
+
+
             </div>
 
-                <!-- Comment -->
+
+
 
             <!-- Blog Sidebar Widgets Column -->
             <div class="col-md-3">
@@ -104,8 +173,8 @@
                         @foreach($topic2 as $tp)
                         <div class="row" style="margin-top: 10px;">
                             <div class="col-md-5">
-                                <a href="detail.html">
-                                    <img class="upload/tintuc/{{$topic->image}}" alt="">
+                                <a href="topic/{{$tp->id}}">
+                                    <img class="img-responsive" src="upload/tintuc/{{$tp->image}}" alt="">
                                 </a>
                             </div>
                             <div class="col-md-7">
@@ -127,8 +196,8 @@
                         @foreach($topic1 as $tp)
                         <div class="row" style="margin-top: 10px;">
                             <div class="col-md-5">
-                                <a href="detail.html">
-                                    <img class="upload/tintuc/{{$topic->image}}" alt="">
+                                <a href="topic/{{$tp->id}}">
+                                    <img class="img-responsive" src="upload/tintuc/{{$tp->image}}" alt="">
                                 </a>
                             </div>
                             <div class="col-md-7">

@@ -17,7 +17,7 @@ class CreateLogTable extends Migration
         Schema::create('log', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('idTopic')->unsigned();
-            $table->foreign('idTopic')->references('id')->on('topic');
+            $table->foreign('idTopic')->references('id')->on('topic')->onDelete('cascade');
             $table->integer('logApprovestatus');
             $table->string('logApprovedby');
             $table->timestamps();

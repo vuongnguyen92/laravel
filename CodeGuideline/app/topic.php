@@ -14,7 +14,7 @@ class topic extends Model
     }
 
     public function tag(){
-    	return $this->belongsToMany('App\tag','idTag','id');
+    	return $this->belongsToMany('App\tag')->withTimestamps( );
     }
 
     public function comment(){

@@ -13,16 +13,16 @@ class catagoryTableSeeder extends Seeder
     {
         //
         $status = 1 ;
-        DB::table('catagory')->insert([
-        	['name' => 'Society','description' => 'Society','status'=>$status],
-        	['name' => 'World','description' => 'World','status'=>$status],
-        	['name' => 'Business','description' => 'Business','status'=>$status],
-        	['name' => 'Cultural','description' => 'Cultural','status'=>$status],
-        	['name' => 'Sport','description' => 'Sport','status'=>$status],
-        	['name' => 'Law','description' => 'Law','status'=>$status],
-        	['name' => 'Life','description' => 'Life','status'=>$status],
-        	['name' => 'Course','description' => 'Course','status'=>$status],
-        	['name' => 'Computer','description' => 'Computer','status'=>$status]
-    	]);
+        $faker = Faker\Factory::create();
+        $datas = [];
+        foreach (range(1, 10) as $key => $value) {
+            $datas[] = [
+                'name' =>  'catagory'.$faker->word ,
+                'description' =>  $faker->text ,
+                'status'=>$status,
+                'created_at' => new DateTime()
+            ];
+        }
+        DB::table('catagory')->insert($datas);
     }
 }

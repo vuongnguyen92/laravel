@@ -19,6 +19,7 @@
                     @endif
                     <form action="admin/topic/searchtopic" method="post" accept-charset="utf-8" class="navbar-form-navbar-left" role="search">
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
+
                         <div class="form-group">
                             <input type="text" name="key" class="form-control" placeholder="Search">
                         </div>
@@ -76,6 +77,10 @@
                             @endforeach
                         </tbody>
                     </table>
+                    
+                </div>
+                <div>
+                    {{ $topic->appends(['key' => $key])->links() }}
                 </div>
                 <!-- /.row -->
             </div>

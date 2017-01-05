@@ -16,7 +16,7 @@
                     <div class="row-item row">
                         <div class="col-md-3">
 
-                            <a href="detail.html">
+                            <a href="topic/{{$tp->id}}">
                                 <br>
                                 <img width="200px" height="200px" class="img-responsive" src="upload/tintuc/{{$tp->image}}" alt="">
                             </a>
@@ -25,14 +25,12 @@
                         <div class="col-md-9">
                             <h3>{{$tp->tittle}}</h3>
                             <p>{{$tp->shortdescription}}</p>
-                            <a class="btn btn-primary" href="topic/{{$tp->id}}">View Project <span class="glyphicon glyphicon-chevron-right"></span></a>
+                            <a class="btn btn-primary" href="topic/{{$tp->id}}">Detail ... <span class="glyphicon glyphicon-chevron-right"></span></a>
                         </div>
                         <div class="break"></div>
                     </div>
                     @endforeach
-
                     {{$topic->links()}}
-
                 </div>
             </div>
 

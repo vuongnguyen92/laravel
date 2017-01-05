@@ -21,6 +21,8 @@ class CreateTagTable extends Migration
             $table->integer('status'); 
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE tag ADD FULLTEXT fulltag(name,description)');
     }
 
     /**
